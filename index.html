@@ -1,290 +1,173 @@
-<!DOCTYPE html>
-<html lang="en" >
+<h2>La Liga Live</h2>
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>College Wishlist - 3D carousel</title>
-  <style>
-      * {
-  margin: 0;
-  padding: 0;
-}
+<title>STREAM</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="description" content="ENJOY FREE LIVE IPTV M3U8">
+<meta name="keywords" content="Watch live sports streaming online, including football, basketball, baseball, 
+hockey, and more. Stream your favorite sports teams and events in HD, with no cable subscription required.">
+<meta name="author" content="MD Shihab Rahman">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<link rel="shortcut icon" type="image/x-icon" href="https://i.ibb.co/37fVLxB/f4027915ec9335046755d489a14472f2.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/plyr@3.6.2/dist/plyr.css" />
+<script src="https://cdn.jsdelivr.net/npm/plyr@3.6.12/dist/plyr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.1.4/dist/hls.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<style>
+        html {
+            font-family: Poppins;
+            background: #000;
+            margin: 0;
+            padding: 0
+        }
 
-html,
-body {
-  height: 100%;
-  /* for touch screen */
-  touch-action: none; 
-}
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 9999;
+        }
 
-body {
-  overflow: hidden;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  background: #111;
-  -webkit-perspective: 1000px;
-          perspective: 1000px;
-  -webkit-transform-style: preserve-3d;
-          transform-style: preserve-3d;
-}
+        .loading-text {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            text-align: center;
+            width: 100%;
+            height: 100px;
+            line-height: 100px;
+        }
 
-#drag-container, #spin-container {
-  position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  margin: auto;
-  -webkit-transform-style: preserve-3d;
-          transform-style: preserve-3d;
-  -webkit-transform: rotateX(-10deg);
-          transform: rotateX(-10deg);
-}
+        .loading-text span {
+            display: inline-block;
+            margin: 0 5px;
+            color: #00b3ff;
+            font-family: 'Quattrocento Sans', sans-serif;
+        }
 
-#drag-container img, #drag-container video {
-  -webkit-transform-style: preserve-3d;
-          transform-style: preserve-3d;
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  line-height: 200px;
-  font-size: 50px;
-  text-align: center;
-  -webkit-box-shadow: 0 0 8px #fff;
-          box-shadow: 0 0 8px #fff;
-  -webkit-box-reflect: below 10px linear-gradient(transparent, transparent, #0005);
-}
+        .loading-text span:nth-child(1) {
+            filter: blur(0px);
+            animation: blur-text 1.5s 0s infinite linear alternate;
+        }
 
-#drag-container img:hover, #drag-container video:hover {
-  -webkit-box-shadow: 0 0 15px #fffd;
-          box-shadow: 0 0 15px #fffd;
-  -webkit-box-reflect: below 10px linear-gradient(transparent, transparent, #0007);
-}
+        .loading-text span:nth-child(2) {
+            filter: blur(0px);
+            animation: blur-text 1.5s 0.2s infinite linear alternate;
+        }
 
-#drag-container p {
-  font-family: Serif;
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  -webkit-transform: translate(-50%,-50%) rotateX(90deg);
-          transform: translate(-50%,-50%) rotateX(90deg);
-  color: #fff;
-}
+        .loading-text span:nth-child(3) {
+            filter: blur(0px);
+            animation: blur-text 1.5s 0.4s infinite linear alternate;
+        }
 
-#ground {
-  width: 900px;
-  height: 900px;
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  -webkit-transform: translate(-50%,-50%) rotateX(90deg);
-          transform: translate(-50%,-50%) rotateX(90deg);
-  background: -webkit-radial-gradient(center center, farthest-side , #9993, transparent);
-}
+        .loading-text span:nth-child(4) {
+            filter: blur(0px);
+            animation: blur-text 1.5s 0.6s infinite linear alternate;
+        }
 
-#music-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
+        .loading-text span:nth-child(5) {
+            filter: blur(0px);
+            animation: blur-text 1.5s 0.8s infinite linear alternate;
+        }
 
-@-webkit-keyframes spin {
-  from{
-    -webkit-transform: rotateY(0deg);
-            transform: rotateY(0deg);
-  } to{
-    -webkit-transform: rotateY(360deg);
-            transform: rotateY(360deg);
-  }
-}
+        .loading-text span:nth-child(6) {
+            filter: blur(0px);
+            animation: blur-text 1.5s 1s infinite linear alternate;
+        }
 
-@keyframes spin {
-  from{
-    -webkit-transform: rotateY(0deg);
-            transform: rotateY(0deg);
-  } to{
-    -webkit-transform: rotateY(360deg);
-            transform: rotateY(360deg);
-  }
-}
-@-webkit-keyframes spinRevert {
-  from{
-    -webkit-transform: rotateY(360deg);
-            transform: rotateY(360deg);
-  } to{
-    -webkit-transform: rotateY(0deg);
-            transform: rotateY(0deg);
-  }
-}
-@keyframes spinRevert {
-  from{
-    -webkit-transform: rotateY(360deg);
-            transform: rotateY(360deg);
-  } to{
-    -webkit-transform: rotateY(0deg);
-            transform: rotateY(0deg);
-  }
-}
+        .loading-text span:nth-child(7) {
+            filter: blur(0px);
+            animation: blur-text 1.5s 1.2s infinite linear alternate;
+        }
+
+        .loading-text span:nth-child(8) {
+            filter: blur(0px);
+            animation: blur-text 1.5s 1.4s infinite linear alternate;
+        }
+        
+        .loading-text span:nth-child(9) {
+            filter: blur(0px);
+            animation: blur-text 1.5s 1.6s infinite linear alternate;
+        }
+        @keyframes blur-text {
+            0% {
+                filter: blur(0px);
+            }
+
+            100% {
+                filter: blur(4px);
+            }
+        }
+
+        .plyr__video-wrapper::after {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            z-index: 10;
+            content: '';
+            height: 35px;
+            width: 35px;
+            background: no-repeat;
+            background-size: 40px, auto, auto;
+        }
     </style>
-
-</head>
 <body>
-<!-- partial:index.partial.html -->
-<div id="drag-container">
-  <div id="spin-container">
-
-
-
-
-
-
-
-    <img src="https://i.postimg.cc/FzkXCtXW/images.jpg" alt="">
-    <img src="https://i.postimg.cc/F1t52P99/images_(1).jpg" alt="">
-    <img src="https://i.postimg.cc/FzkXCtXW/images.jpg" alt="">
-    <img src="https://i.postimg.cc/F1t52P99/images_(1).jpg" alt="">
-    <img src="https://i.postimg.cc/FzkXCtXW/images.jpg" alt="">
-    <img src="https://i.postimg.cc/F1t52P99/images_(1).jpg" alt="">
-    <img src="https://i.postimg.cc/FzkXCtXW/images.jpg" alt="">
-
-
-    <video controls autoplay="autoplay" loop>
-      <source src="https://github.com/Neo045/Testing-Purpose-Only/raw/refs/heads/main/Video.mp4" type="video/mp4">
-    </video>
-
-    <!-- Text at center of ground -->
-    <p>     Made By <mark>Shihab Rahman 😎</mark></p>
-  </div>
-  <div id="ground"></div>
+<div id="loading" class="loading">
+<div class="loading-text">
+<span class="loading-text-words">S</span>
+<span class="loading-text-words">h</span>
+<span class="loading-text-words">i</span>
+<span class="loading-text-words">h</span>
+<span class="loading-text-words">a</span>
+<span class="loading-text-words">b</span>
+<span class="loading-text-words">.</span>
+<span class="loading-text-words">.</span>
 </div>
-
-<div id="music-container"></div>
-
-
-<style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
-<!-- partial -->
-  <script type="text/javascript">
-      
-var radius = 240; // how big of the radius
-var autoRotate = true; // auto rotate or not
-var rotateSpeed = -60; // unit: seconds/360 degrees
-var imgWidth = 120; // width of images (unit: px)
-var imgHeight = 170; // height of images (unit: px)
-
-// Link of background music - set 'null' if you dont want to play background music
-var bgMusicURL = 'https://github.com/Neo045/Testing-Purpose-Only/raw/refs/heads/main/29_22092024.mp3';
-var bgMusicControls = true; // Show UI music control
-
-
-
-// ===================== start =======================
-// animation start after 1000 miliseconds
-setTimeout(init, 1000);
-
-var odrag = document.getElementById('drag-container');
-var ospin = document.getElementById('spin-container');
-var aImg = ospin.getElementsByTagName('img');
-var aVid = ospin.getElementsByTagName('video');
-var aEle = [...aImg, ...aVid]; // combine 2 arrays
-
-// Size of images
-ospin.style.width = imgWidth + "px";
-ospin.style.height = imgHeight + "px";
-
-// Size of ground - depend on radius
-var ground = document.getElementById('ground');
-ground.style.width = radius * 3 + "px";
-ground.style.height = radius * 3 + "px";
-
-function init(delayTime) {
-  for (var i = 0; i < aEle.length; i++) {
-    aEle[i].style.transform = "rotateY(" + (i * (360 / aEle.length)) + "deg) translateZ(" + radius + "px)";
-    aEle[i].style.transition = "transform 1s";
-    aEle[i].style.transitionDelay = delayTime || (aEle.length - i) / 4 + "s";
-  }
-}
-
-function applyTranform(obj) {
-  // Constrain the angle of camera (between 0 and 180)
-  if(tY > 180) tY = 180;
-  if(tY < 0) tY = 0;
-
-  // Apply the angle
-  obj.style.transform = "rotateX(" + (-tY) + "deg) rotateY(" + (tX) + "deg)";
-}
-
-function playSpin(yes) {
-  ospin.style.animationPlayState = (yes?'running':'paused');
-}
-
-var sX, sY, nX, nY, desX = 0,
-    desY = 0,
-    tX = 0,
-    tY = 10;
-
-// auto spin
-if (autoRotate) {
-  var animationName = (rotateSpeed > 0 ? 'spin' : 'spinRevert');
-  ospin.style.animation = `${animationName} ${Math.abs(rotateSpeed)}s infinite linear`;
-}
-
-// add background music
-if (bgMusicURL) {
-  document.getElementById('music-container').innerHTML += `
-<audio src="${bgMusicURL}" ${bgMusicControls? 'controls': ''} autoplay loop>    
-<p>If you are reading this, it is because your browser does not support the audio element.</p>
-</audio>
-`;
-}
-
-// setup events
-document.onpointerdown = function (e) {
-  clearInterval(odrag.timer);
-  e = e || window.event;
-  var sX = e.clientX,
-      sY = e.clientY;
-
-  this.onpointermove = function (e) {
-    e = e || window.event;
-    var nX = e.clientX,
-        nY = e.clientY;
-    desX = nX - sX;
-    desY = nY - sY;
-    tX += desX * 0.1;
-    tY += desY * 0.1;
-    applyTranform(odrag);
-    sX = nX;
-    sY = nY;
-  };
-
-  this.onpointerup = function (e) {
-    odrag.timer = setInterval(function () {
-      desX *= 0.95;
-      desY *= 0.95;
-      tX += desX * 0.1;
-      tY += desY * 0.1;
-      applyTranform(odrag);
-      playSpin(false);
-      if (Math.abs(desX) < 0.5 && Math.abs(desY) < 0.5) {
-        clearInterval(odrag.timer);
-        playSpin(true);
-      }
-    }, 17);
-    this.onpointermove = this.onpointerup = null;
-  };
-
-  return false;
-};
-
-document.onmousewheel = function(e) {
-  e = e || window.event;
-  var d = e.wheelDelta / 20 || -e.detail;
-  radius += d;
-  init(1);
-};
-
-    </script>
-
+</div>
+<video autoplay controls crossorigin playsinline>
+<source type="application/vnd.apple.mpegurl" src="https://hotflixbd.online/laliga1/index.m3u8"> </video>
+ </video>
 </body>
+<script>
+    setTimeout(videovisible, 3000)
 
+    function videovisible() {
+        document.getElementById('loading').style.display = 'none'
+    }
+    document.addEventListener("DOMContentLoaded", () => {
+        const e = document.querySelector("video"),
+            n = e.getElementsByTagName("source")[0].src,
+            o = {};
+        if (Hls.isSupported()) {
+            var config = {
+                maxMaxBufferLength: 100,
+            };
+            const t = new Hls(config);
+            t.loadSource(n), t.on(Hls.Events.MANIFEST_PARSED, function(n, l) {
+                const s = t.levels.map(e => e.height);
+                o.quality = {
+                    default: s[0],
+                    options: s,
+                    forced: !0,
+                    onChange: e => (function(e) {
+                        window.hls.levels.forEach((n, o) => {
+                            n.height === e && (window.hls.currentLevel = o)
+                        })
+                    })(e)
+                };
+                new Plyr(e, o)
+            }), t.attachMedia(e), window.hls = t
+        } else {
+            new Plyr(e, o)
+        }
+    });
+</script>
+</body>
+</html>
